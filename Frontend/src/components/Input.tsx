@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import toast from "react-hot-toast";
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
@@ -6,6 +6,10 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 function Input(props: InputProps) {
   const isFileInput = props.type === "file";
   const [fileName, setFileName] = useState<string>("");
+
+      // useEffect(() => {
+      
+      // },[]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

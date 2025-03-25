@@ -10,7 +10,7 @@ export function useSubmission() {
   const [isChecking, setIsChecking] = useState(false);
   const [isPending, setIsPening] = useState(false);
 
-  const { handleCreateBottle, handleReplyBottle } = useInteracton();
+  const { handleCreateBottle, handleReplyBottle, confirmation } = useInteracton();
   const handleSubmit = async (objectId?: string) => {
     setIsPening(true);
     const toStore: (string | File)[] = [];
@@ -72,6 +72,7 @@ export function useSubmission() {
     }
 
     if (toStore.length === 0) {
+      setIsPening(false);
       toast.error("Please enter text or upload an image");
 
       return;
@@ -96,5 +97,6 @@ export function useSubmission() {
     aiSuggestion,
     isChecking,
     handleSubmit,
+    confirmation
   };
 }

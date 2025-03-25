@@ -1,11 +1,11 @@
 
 import toast from "react-hot-toast";
 import { wagmiContractConfig } from "@/contractConfig";
-import { useReadContract, useWriteContract } from 'wagmi'
+import { useReadContract, useWriteContract,useWaitForTransactionReceipt} from 'wagmi'
 // Todo
 
 export default function useInteracton() {
-    const { writeContract } = useWriteContract();
+    const { data: hash, writeContract } = useWriteContract()
 
     const {data:allBottles} = useReadContract({
         ...wagmiContractConfig,
@@ -38,6 +38,10 @@ export default function useInteracton() {
             toast.error("Reply bottle failed.");
         }
     }
+    const confirmation  =
+    useWaitForTransactionReceipt({
+      hash,
+    })
 
     // allBottles
     // handleCreateBottle
@@ -46,6 +50,7 @@ export default function useInteracton() {
     return {
         handleCreateBottle,
         handleReplyBottle,
-        allBottles
+        allBottles,
+        confirmation
     }
 }

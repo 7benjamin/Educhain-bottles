@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 
 import Button from "@/components/Button";
@@ -6,6 +6,7 @@ import Input from "@/components/Input";
 import { useSubmission } from "@/hooks/use-submission";
 import TipCarousel from "@/components/tip-carousel";
 import { useAccount } from "wagmi";
+import toast from "react-hot-toast";
 
 export default function MintForm({ onSubmit }: { onSubmit?: () => void }) {
   const { isConnected } = useAccount();
@@ -20,12 +21,26 @@ export default function MintForm({ onSubmit }: { onSubmit?: () => void }) {
     isChecking,
     isPending,
     handleSubmit: handleMint,
+    confirmation
   } = useSubmission();
+  const [showToast, setshowToast] = useState(false);
 
   const handleFormSubmit = () => {
     handleMint();
     onSubmit?.();
+    setshowToast(true);
   };
+
+    useEffect(() => {
+      if(confirmation.status === 'success' && showToast){
+        setshowToast(false);
+        toast.success("Success create bottle");
+        setMintText('')
+        setMintImage(null)
+      }
+    }, [confirmation.status]);
+  
+
 
   return (
     <div
@@ -90,6 +105,8 @@ export default function MintForm({ onSubmit }: { onSubmit?: () => void }) {
             <Button
               isLoading={isPending || isChecking}
               onClick={handleFormSubmit}
+              // disabled={isPending ? true : false}
+              
             >
               {isPending ? "Sending..." : "Send"}
             </Button>

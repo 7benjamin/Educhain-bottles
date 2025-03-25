@@ -42,6 +42,8 @@ export default function BottleModal({
     handleSubmit,
   } = useSubmission();
 
+  console.log('selectedBottle: ' +JSON.stringify(selectedBottle))
+
   const handleReply = () => {
     handleSubmit(selectedBottle?.id);
   };
@@ -60,7 +62,7 @@ export default function BottleModal({
 
   const renderMessageContent = (msg: any) => {
     switch (msg.mediaType) {
-      case "text":
+      case "text/html":
         return <p className="whitespace-pre-wrap break-words">{msg.content}</p>;
       case "image":
         return <Image alt="Message content" className="w-full h-auto" src={msg.content} />;
